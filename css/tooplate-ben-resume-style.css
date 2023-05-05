@@ -103,8 +103,8 @@ https://www.tooplate.com/view/2120-ben-resume
     color: var(--p-color);
     font-size: var(--p-font-size);
     font-weight: var(--font-weight-light);
-    letter-spacing: 0.3px;
-    line-height: 2em;
+    letter-spacing: 0px;
+    /* line-height: 2em; */
   }
 
   .section-padding {
@@ -344,8 +344,8 @@ https://www.tooplate.com/view/2120-ben-resume
 
   .profile-list strong {
     display: inline-block;
-    width: 30%;
-    margin-right: 1rem;
+ /* width: 30%; */
+    /* margin-right: 1rem; */
   }
 
 

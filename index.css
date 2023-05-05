@@ -253,10 +253,10 @@
 }
 .index-icon04 {
   fill: var(--dl-color-gray-900);
-  width: 100px;
-  height: 100px;
-  min-width: 100px;
-  min-height: 100px;
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
 }
 .index-content-container {
   display: flex;
