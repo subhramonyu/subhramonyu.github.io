@@ -1,0 +1,937 @@
+/*
+ * GitHub Pages — dev portfolio theme (loads after Tooplate base)
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700&display=swap");
+
+html.theme-dev {
+  --primary-color: #2ee5a8;
+  --primary-hot: #5cffd6;
+  --accent-violet: #a78bfa;
+  --accent-blue: #38bdf8;
+  --primary-dim: rgba(46, 229, 168, 0.12);
+  --white-color: #eef2f8;
+  --dark-color: #05080d;
+  --menu-bg-color: rgba(5, 8, 13, 0.94);
+  --gray-color: #8b98a8;
+  --p-color: #94a3b8;
+  --surface: #0a0f16;
+  --surface-2: #0f1620;
+  --border-glow: rgba(46, 229, 168, 0.45);
+  --base-font-family: "Outfit", system-ui, sans-serif;
+  --display-font: "Orbitron", "Outfit", system-ui, sans-serif;
+  --mono-font: "JetBrains Mono", ui-monospace, monospace;
+  --h1-font-size: clamp(2.25rem, 4vw, 3.25rem);
+  --h3-font-size: clamp(1.65rem, 2.5vw, 2.1rem);
+  --h6-font-size: 1rem;
+  --p-font-size: 1.05rem;
+  --base-font-size: 15px;
+}
+
+html.theme-dev body {
+  background: var(--dark-color);
+  color: var(--white-color);
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+html.theme-dev img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-dev body {
+    scroll-behavior: auto;
+  }
+  html.theme-dev .fx-scanlines,
+  html.theme-dev .hero-status-dot,
+  html.theme-dev .hero-display,
+  html.theme-dev .hero-photo-wrap,
+  html.theme-dev .github-strip,
+  html.theme-dev .navbar-brand {
+    animation: none !important;
+  }
+  html.theme-dev * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html.theme-dev body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 229, 168, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 100% 70% at 50% -10%, black 25%, transparent 72%);
+}
+
+/* Film grain + scanlines — subtle “holo display” */
+html.theme-dev .fx-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+html.theme-dev .fx-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  opacity: 0.25;
+  animation: fx-scan-drift 14s linear infinite;
+}
+
+@keyframes fx-scan-drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(8px); }
+}
+
+html.theme-dev section,
+html.theme-dev nav {
+  position: relative;
+  z-index: 1;
+}
+
+html.theme-dev .github-strip {
+  position: relative;
+  z-index: 2;
+}
+
+/* Nav — visible on load, glass when scrolled */
+html.theme-dev .navbar {
+  opacity: 1;
+  background: rgba(7, 11, 16, 0.65) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(46, 229, 157, 0.12);
+  padding: 0.65rem 1rem !important;
+}
+
+html.theme-dev .navbar.scroll {
+  background: var(--menu-bg-color) !important;
+  border-bottom-color: rgba(46, 229, 157, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+html.theme-dev .navbar-brand {
+  font-family: var(--mono-font);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--white-color), var(--primary-hot), var(--accent-violet), var(--white-color));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: fx-shimmer 7s ease-in-out infinite;
+}
+
+html.theme-dev .navbar-brand:hover {
+  animation-duration: 3s;
+}
+
+@keyframes fx-shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+html.theme-dev .nav-link {
+  color: var(--gray-color) !important;
+  font-family: var(--mono-font);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+html.theme-dev .nav-item .nav-link.active,
+html.theme-dev .nav-item .nav-link:hover {
+  color: var(--primary-color) !important;
+  border-bottom-color: var(--primary-color) !important;
+}
+
+html.theme-dev .navbar .custom-btn {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  border-radius: 6px !important;
+  font-family: var(--mono-font);
+  font-size: 0.8rem !important;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 1.25rem !important;
+}
+
+html.theme-dev .navbar .custom-btn:hover {
+  background: var(--primary-color) !important;
+  color: var(--dark-color) !important;
+}
+
+/* Hero */
+html.theme-dev .hero-future {
+  min-height: 100vh;
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 90% 60% at 85% 5%, rgba(56, 189, 248, 0.14), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 90%, rgba(167, 139, 250, 0.12), transparent 50%),
+    radial-gradient(ellipse 100% 40% at 50% 100%, rgba(46, 229, 168, 0.08), transparent 55%),
+    var(--dark-color);
+}
+
+html.theme-dev .hero-future::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 120px;
+  height: 120px;
+  border-left: 1px solid rgba(46, 229, 168, 0.25);
+  border-top: 1px solid rgba(46, 229, 168, 0.25);
+  pointer-events: none;
+}
+
+html.theme-dev .hero-future::after {
+  content: "";
+  position: absolute;
+  bottom: 12%;
+  right: 8%;
+  width: 100px;
+  height: 100px;
+  border-right: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  pointer-events: none;
+}
+
+html.theme-dev .hero-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1.25rem;
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray-color);
+  margin-bottom: 1.35rem;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid rgba(46, 229, 168, 0.2);
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(15, 22, 32, 0.9), rgba(10, 15, 22, 0.6));
+  box-shadow: 0 0 24px rgba(46, 229, 168, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+html.theme-dev .hero-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary-hot);
+  box-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(46, 229, 168, 0.4);
+  animation: fx-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fx-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(0.92); }
+}
+
+html.theme-dev .hero-status-text {
+  color: var(--primary-hot);
+  font-weight: 600;
+}
+
+html.theme-dev .hero-status-dim {
+  color: var(--gray-color);
+  font-weight: 400;
+}
+
+html.theme-dev .hero-status-meta {
+  margin-left: auto;
+  color: var(--p-color);
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 576px) {
+  html.theme-dev .hero-status-meta {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+html.theme-dev .hero-title {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 0.85rem !important;
+  font-family: var(--mono-font);
+  font-size: 0.78rem !important;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-blue) !important;
+  text-shadow: 0 0 24px rgba(56, 189, 248, 0.25);
+}
+
+html.theme-dev .hero-display {
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4.5vw, 3.15rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(
+    105deg,
+    #ffffff 0%,
+    #c7d2fe 18%,
+    var(--primary-hot) 38%,
+    var(--accent-violet) 58%,
+    var(--accent-blue) 78%,
+    #ffffff 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: fx-gradient-flow 10s ease-in-out infinite;
+  filter: drop-shadow(0 0 28px rgba(46, 229, 168, 0.12));
+}
+
+@keyframes fx-gradient-flow {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+html.theme-dev .hero-lead {
+  font-size: 1.1rem;
+  color: var(--p-color);
+  max-width: 36rem;
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+
+html.theme-dev .hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+html.theme-dev .hero-chip {
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 2px;
+  background: rgba(15, 22, 32, 0.85);
+  border: 1px solid rgba(46, 229, 168, 0.25);
+  color: var(--gray-color);
+  box-shadow: inset 0 0 12px rgba(46, 229, 168, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+html.theme-dev .hero-chip:hover {
+  border-color: var(--primary-hot);
+  box-shadow: 0 0 20px rgba(46, 229, 168, 0.15), inset 0 0 12px rgba(56, 189, 248, 0.06);
+  transform: translateY(-1px);
+}
+
+html.theme-dev .hero-chip strong {
+  color: var(--primary-hot);
+  font-weight: 600;
+}
+
+html.theme-dev .panel-title {
+  font-family: var(--mono-font);
+  font-size: 0.82rem !important;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-color) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+html.theme-dev .panel-title::before {
+  content: "//";
+  color: var(--accent-violet);
+  font-weight: 700;
+}
+
+/* Animated frame + inner crop */
+html.theme-dev .hero-photo-wrap {
+  position: relative;
+  padding: 2px;
+  border-radius: 14px;
+  background: linear-gradient(
+    130deg,
+    var(--primary-hot),
+    var(--accent-violet),
+    var(--accent-blue),
+    var(--primary-hot)
+  );
+  background-size: 300% 300%;
+  animation: fx-border-flow 5s ease infinite;
+  box-shadow:
+    0 0 40px rgba(46, 229, 168, 0.15),
+    0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fx-border-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+html.theme-dev .hero-photo-inner {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--dark-color);
+}
+
+html.theme-dev .hero-photo-inner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+html.theme-dev .hero-photo-hud {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.06) 0%,
+    transparent 35%,
+    transparent 65%,
+    rgba(46, 229, 168, 0.04) 100%
+  );
+}
+
+html.theme-dev .profile-list {
+  font-family: var(--mono-font);
+  font-size: 0.88rem;
+}
+
+html.theme-dev .profile-list li {
+  color: var(--p-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.5rem 0;
+}
+
+html.theme-dev .profile-list strong {
+  color: var(--gray-color);
+  min-width: 8rem;
+}
+
+html.theme-dev h3 {
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+html.theme-dev .about {
+  background: var(--surface);
+}
+
+/* Tooplate uses negative margins here — causes horizontal scroll on phones */
+html.theme-dev .about-third {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+html.theme-dev .about-third h6 {
+  font-family: var(--mono-font);
+  font-size: 0.75rem !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+html.theme-dev .about-third h6 img {
+  width: 28px !important;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+html.theme-dev .about-third p {
+  font-size: 0.95rem;
+}
+
+html.theme-dev .about-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid rgba(46, 229, 157, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 992px) {
+  html.theme-dev .about-image {
+    max-height: none;
+  }
+}
+
+html.theme-dev .about .profile-list img {
+  height: 28px;
+  width: auto;
+  margin: 0.25rem 0.35rem 0.25rem 0;
+  border-radius: 4px;
+  vertical-align: middle;
+  filter: grayscale(0.2);
+  opacity: 0.9;
+}
+
+/* Experience carousel */
+html.theme-dev .testimonials {
+  background: var(--dark-color) !important;
+}
+
+html.theme-dev .section-heading {
+  font-family: var(--mono-font);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+html.theme-dev .section-heading::after {
+  content: "";
+  flex: 1;
+  min-width: 2rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+  max-width: 120px;
+}
+
+html.theme-dev .section-heading-center {
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+html.theme-dev .section-heading-center::before {
+  content: "";
+  width: 48px;
+  height: 1px;
+  flex: none;
+  background: linear-gradient(90deg, transparent, var(--primary-hot));
+}
+
+html.theme-dev .section-heading-center::after {
+  flex: none;
+  width: 48px;
+  max-width: none;
+  background: linear-gradient(90deg, var(--primary-hot), transparent);
+}
+
+html.theme-dev .testimonials-thumb {
+  position: relative;
+  background: linear-gradient(165deg, rgba(18, 26, 36, 0.95), rgba(10, 15, 22, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  border-radius: 10px;
+  padding: 1.35rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+
+html.theme-dev .testimonials-thumb::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-hot), var(--accent-violet), transparent);
+  opacity: 0.65;
+}
+
+html.theme-dev .testimonials-thumb:hover {
+  border-color: rgba(46, 229, 168, 0.35);
+  box-shadow:
+    0 0 32px rgba(46, 229, 168, 0.08),
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+html.theme-dev .testimonials-info h6 {
+  font-family: var(--mono-font);
+  color: var(--white-color);
+  margin-top: 0.75rem;
+}
+
+html.theme-dev .testimonials-info span {
+  font-family: var(--mono-font);
+  font-size: 0.75rem;
+  color: var(--gray-color);
+  letter-spacing: 0.06em;
+}
+
+/* Owl default forces img { width:100% } — stretches logos; keep aspect ratio */
+html.theme-dev #testimonials-carousel .owl-item img {
+  width: auto !important;
+  max-width: 100%;
+  max-height: 100px;
+  height: auto !important;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}
+
+html.theme-dev #testimonials-carousel .testimonials-image {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1rem 0;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  html.theme-dev #testimonials-carousel .owl-item img {
+    max-height: 120px;
+  }
+
+  html.theme-dev #testimonials-carousel .testimonials-image {
+    margin: 0 1rem 0 0;
+  }
+}
+
+html.theme-dev .testimonials .owl-theme .owl-dots .owl-dot span {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.theme-dev .testimonials .owl-theme .owl-dots .owl-dot.active span,
+html.theme-dev .testimonials .owl-theme .owl-dots .owl-dot:hover span {
+  background: var(--primary-color) !important;
+}
+
+/* GitHub strip */
+html.theme-dev .github-strip {
+  text-align: center;
+  padding: 1.35rem 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 8, 13, 0.98),
+    rgba(46, 229, 168, 0.08) 40%,
+    rgba(167, 139, 250, 0.06) 60%,
+    rgba(5, 8, 13, 0.98)
+  );
+  background-size: 200% 100%;
+  animation: fx-strip-flow 12s ease-in-out infinite;
+  border-top: 1px solid rgba(46, 229, 168, 0.2);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 48px rgba(46, 229, 168, 0.05);
+}
+
+@keyframes fx-strip-flow {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+html.theme-dev .github-strip a {
+  font-family: var(--mono-font);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--primary-hot) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-shadow: 0 0 20px rgba(46, 229, 168, 0.35);
+}
+
+html.theme-dev .github-strip a:hover {
+  color: #fff !important;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.35);
+}
+
+/* FAQ / accordion */
+html.theme-dev .faq {
+  background: var(--surface);
+}
+
+html.theme-dev .faq .card {
+  background: linear-gradient(145deg, rgba(18, 26, 36, 0.9), rgba(12, 18, 26, 0.95));
+  border: 1px solid rgba(56, 189, 248, 0.1) !important;
+  border-radius: 6px !important;
+  margin-bottom: 0.65rem;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+html.theme-dev .faq .card-header {
+  background: transparent;
+  border: none;
+}
+
+html.theme-dev .faq .btn-link {
+  color: var(--white-color) !important;
+  font-family: var(--mono-font);
+  font-size: 0.82rem !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+html.theme-dev .faq .btn-link:hover {
+  color: var(--primary-color) !important;
+}
+
+html.theme-dev .faq .card-body {
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+html.theme-dev .faq .card-body p {
+  margin: 0;
+}
+
+/* Contact */
+html.theme-dev .contact {
+  background: var(--dark-color);
+}
+
+html.theme-dev .contact-form .form-control {
+  color: var(--white-color) !important;
+  border-bottom-color: rgba(46, 229, 157, 0.25) !important;
+}
+
+html.theme-dev .contact-form .form-control:focus {
+  border-bottom-color: var(--primary-color) !important;
+}
+
+html.theme-dev .contact .custom-btn {
+  border-radius: 6px !important;
+  display: inline-block;
+}
+
+html.theme-dev .social-links a {
+  color: var(--gray-color) !important;
+  font-size: 1.35rem;
+}
+
+html.theme-dev .social-links a:hover {
+  color: var(--primary-color) !important;
+}
+
+html.theme-dev .copyright-text {
+  color: var(--gray-color);
+  font-family: var(--mono-font);
+  font-size: 0.8rem !important;
+}
+
+html.theme-dev a {
+  color: var(--primary-color);
+}
+
+html.theme-dev a:hover {
+  color: #fff;
+}
+
+html.theme-dev .contact .custom-btn {
+  background: var(--primary-color) !important;
+  color: var(--dark-color) !important;
+  border-radius: 6px !important;
+  font-family: var(--mono-font);
+  font-size: 0.85rem !important;
+  letter-spacing: 0.06em;
+}
+
+html.theme-dev .contact .custom-btn:hover {
+  filter: brightness(1.08);
+  color: var(--dark-color) !important;
+}
+
+/* -----------------------------------------------------------------
+   Mobile & tablet — fix overflow, image stretch, and cramped spacing
+   ----------------------------------------------------------------- */
+
+html.theme-dev .hero .row > [class*="col-"] {
+  min-width: 0;
+}
+
+@media (max-width: 991.98px) {
+  html.theme-dev .hero-future {
+    min-height: 0;
+    padding-top: 5.25rem;
+    padding-bottom: 2.75rem;
+  }
+
+  html.theme-dev .hero-future::before,
+  html.theme-dev .hero-future::after {
+    width: 56px;
+    height: 56px;
+    opacity: 0.6;
+  }
+
+  html.theme-dev .hero-photo-wrap {
+    max-width: min(300px, 86vw);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  html.theme-dev .hero-text {
+    position: static;
+    top: auto;
+    padding-top: 0;
+    text-align: left;
+  }
+
+  html.theme-dev .hero-display {
+    font-size: clamp(1.45rem, 6.5vw, 2.25rem);
+    line-height: 1.18;
+    word-wrap: break-word;
+  }
+
+  html.theme-dev .hero-lead {
+    font-size: 1rem;
+    max-width: none;
+  }
+
+  html.theme-dev .navbar .navbar-collapse {
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+  }
+
+  html.theme-dev .navbar-expand-lg .navbar-nav .nav-link {
+    padding: 0.35rem 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  html.theme-dev .section-padding {
+    padding-top: 3.25rem !important;
+    padding-bottom: 3.25rem !important;
+  }
+
+  html.theme-dev .testimonials-thumb {
+    padding: 1rem;
+  }
+
+  html.theme-dev .testimonials-thumb:hover {
+    transform: none;
+  }
+
+  html.theme-dev #testimonials-carousel .testimonials-thumb.d-flex.flex-column {
+    align-items: stretch;
+  }
+
+  html.theme-dev .github-strip a {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
+  html.theme-dev .github-strip a span {
+    max-width: 100%;
+  }
+
+  html.theme-dev .about-image {
+    max-height: 280px;
+    margin-top: 1.5rem;
+  }
+
+  html.theme-dev .contact .row > [class*="col-"] {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  html.theme-dev .hero-status-bar {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    padding: 0.45rem 0.65rem;
+    gap: 0.5rem;
+  }
+
+  html.theme-dev .hero-title {
+    letter-spacing: 0.18em !important;
+    font-size: 0.68rem !important;
+  }
+
+  html.theme-dev .hero-chip {
+    font-size: 0.62rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  html.theme-dev .profile-list strong {
+    display: block;
+    min-width: 0 !important;
+    margin-bottom: 0.15rem;
+  }
+
+  html.theme-dev .profile-list li {
+    padding: 0.65rem 0;
+  }
+
+  html.theme-dev .section-heading {
+    letter-spacing: 0.14em;
+    font-size: 0.65rem;
+    max-width: 100%;
+  }
+
+  html.theme-dev .section-heading:not(.section-heading-center)::after {
+    display: none;
+  }
+
+  html.theme-dev .section-heading-center::before,
+  html.theme-dev .section-heading-center::after {
+    width: 28px;
+  }
+
+  html.theme-dev .faq .btn-link {
+    padding: 0.85rem 1rem !important;
+    font-size: 0.68rem !important;
+    white-space: normal !important;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  html.theme-dev .faq .card-body {
+    padding: 1rem !important;
+  }
+
+  html.theme-dev .navbar-brand {
+    font-size: 0.88rem;
+    max-width: calc(100vw - 5.5rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  html.theme-dev .container {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+}
