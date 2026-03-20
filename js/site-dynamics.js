@@ -50,6 +50,18 @@
     }, intervalMs);
   }
 
+  /** If the page loads with #section (or hash changes), show that block even before IO fires. */
+  function revealHashTarget() {
+    var h = window.location.hash;
+    if (!h || h.length < 2) return;
+    var id = decodeURIComponent(h.slice(1)).split('&')[0];
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (el && el.classList.contains('motion-reveal')) {
+      el.classList.add('motion-reveal--visible');
+    }
+  }
+
   function initScrollReveal() {
     if (reduced) {
       document.querySelectorAll('.motion-reveal').forEach(function (el) {
@@ -77,6 +89,11 @@
     nodes.forEach(function (el) {
       io.observe(el);
     });
+  }
+
+  function initHashRevealSync() {
+    revealHashTarget();
+    window.addEventListener('hashchange', revealHashTarget);
   }
 
   function initBrandEasterEgg() {
@@ -116,6 +133,7 @@
 
   function run() {
     initScrollReveal();
+    initHashRevealSync();
     initBrandEasterEgg();
     initFooterQuip();
 

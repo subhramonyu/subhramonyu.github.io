@@ -2,28 +2,78 @@
   $(function () {
     'use strict'
 
-    // MENU — collapse mobile nav when any in-page link in the bar is used
-    $('.navbar').on('click', 'a.smoothScroll', function () {
-        $(".navbar-collapse").collapse('hide');
+    /**
+     * Same-document hash links. Do not use $(a).attr('href') — jQuery returns the
+     * resolved absolute URL for <a>, so "#contact" becomes "https://…#contact" and
+     * breaks a naive "#" check.
+     */
+    function hashFromInPageAnchor(anchor) {
+      var attr = anchor.getAttribute('href');
+      if (attr && /^\s*#/.test(attr)) {
+        return attr.replace(/^\s+/, '').split('?')[0];
+      }
+      if (anchor.hash) {
+        return anchor.hash.split('?')[0];
+      }
+      return '';
+    }
+
+    $(document).on('click', 'a.smoothScroll', function (event) {
+      var hash = hashFromInPageAnchor(this);
+      if (!hash || hash.length < 2) return;
+
+      var id = decodeURIComponent(hash.slice(1));
+      if (!id) return;
+
+      var target = document.getElementById(id);
+      if (!target) return;
+
+      event.preventDefault();
+
+      if ($(this).closest('.navbar').length) {
+        $('.navbar-collapse').collapse('hide');
+      }
+
+      target.classList.add('motion-reveal--visible');
+
+      var navOffset = 49;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - navOffset;
+      y = Math.max(0, y);
+
+      var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+
+      try {
+        if (history.pushState) {
+          history.pushState(null, '', hash);
+        } else {
+          window.location.hash = hash;
+        }
+      } catch (e) {
+        try {
+          window.location.hash = hash;
+        } catch (e2) { /* file:// or restricted contexts */ }
+      }
     });
 
-    $(window).on('scroll', function() {     
-                                
+    $(window).on('scroll', function() {
+
         /*----------------------------------------------------*/
         /*  Navigtion Menu Scroll
-        /*----------------------------------------------------*/    
-        
+        /*----------------------------------------------------*/
+
         var b = $(window).scrollTop();
-        
-        if( b > 72 ){       
+
+        if( b > 72 ){
             $(".navbar").addClass("scroll");
         } else {
             $(".navbar").removeClass("scroll");
-        }               
+        }
     });
 
     // TESTIMONIALS CAROUSEL
-    $('#testimonials-carousel').owlCarousel({
+    try {
+      $('#testimonials-carousel').owlCarousel({
         loop:true,
         margin:10,
         responsiveClass:true,
@@ -39,23 +89,11 @@
                 loop:false
             }
         }
-    })
-
-    // SMOOTHSCROLL — all .smoothScroll hash links (nav, freelance CTA, etc.)
-    $(function () {
-      $('a.smoothScroll').on('click', function (event) {
-        var href = $(this).attr('href');
-        if (!href || href.charAt(0) !== '#') return;
-        var id = href.slice(1);
-        if (!id) return;
-        var $target = $('#' + $.escapeSelector(id));
-        if (!$target.length) return;
-        $target.filter('.motion-reveal').addClass('motion-reveal--visible');
-        $('html, body').stop().animate({
-          scrollTop: $target.offset().top - 49
-        }, 1000);
-        event.preventDefault();
       });
-    });
-     
+    } catch (err) {
+      if (window.console && console.warn) {
+        console.warn('owlCarousel init skipped:', err);
+      }
+    }
+
   });

@@ -465,6 +465,8 @@ html.theme-dev .freelance-cta__body {
 }
 
 html.theme-dev .freelance-cta__link {
+  position: relative;
+  z-index: 2;
   font-family: var(--mono-font);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
