@@ -2,8 +2,8 @@
   $(function () {
     'use strict'
 
-    // MENU
-    $('.navbar .nav-link').on('click',function(){
+    // MENU — collapse mobile nav when any in-page link in the bar is used
+    $('.navbar').on('click', 'a.smoothScroll', function () {
         $(".navbar-collapse").collapse('hide');
     });
 
@@ -41,15 +41,21 @@
         }
     })
 
-    // SMOOTHSCROLL
-    $(function() {
-      $('.navbar .nav-link').on('click', function(event) {
-        var $anchor = $(this);
+    // SMOOTHSCROLL — all .smoothScroll hash links (nav, freelance CTA, etc.)
+    $(function () {
+      $('a.smoothScroll').on('click', function (event) {
+        var href = $(this).attr('href');
+        if (!href || href.charAt(0) !== '#') return;
+        var id = href.slice(1);
+        if (!id) return;
+        var $target = $('#' + $.escapeSelector(id));
+        if (!$target.length) return;
+        $target.filter('.motion-reveal').addClass('motion-reveal--visible');
         $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top - 49
+          scrollTop: $target.offset().top - 49
         }, 1000);
         event.preventDefault();
       });
-    });   
+    });
      
   });
