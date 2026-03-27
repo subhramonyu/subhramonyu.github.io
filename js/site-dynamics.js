@@ -18,7 +18,7 @@
   ];
 
   var STATUS_LINES = [
-    'build: stable · JVM · CPython',
+    'build: stable · JVM · CPython · CI tests',
     'latency: fine · ego: versioned',
     'tests: green enough · vibes: cautiously optimistic',
     '$ ./ship.sh --no-regrets --with-tests',
